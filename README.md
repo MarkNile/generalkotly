@@ -7,9 +7,7 @@
 
 ## 🎮 ИГРАЙ ПРЯМО СЕЙЧАС!
 
-👉 **[ИГРАТЬ В GENERAL KOTLY](https://твойник.github.io/generalkotly/)** 👈
-
-*(Замени `твойник` на свой GitHub-ник, например: `ivan123` → `https://ivan123.github.io/generalkotly/`)*
+👉 **[ИГРАТЬ В GENERAL KOTLY](https://marknile.github.io/generalkotly/)** 👈
 
 ---
 
@@ -24,7 +22,7 @@
 ## 🎯 Соцсети:
 - 📱 **Telegram**: [t.me/G_KOTLY](https://t.me/G_KOTLY)
 - 🎬 **TikTok**: [@general.kotly](https://tiktok.com/@general.kotly)
-- ⏰ **GitHub**: [github.com/твойник/generalkotly](https://github.com/твойник/generalkotly)
+- ⏰ **GitHub**: [github.com/marknile/generalkotly](https://github.com/marknile/generalkotly)
 
 ---
 
