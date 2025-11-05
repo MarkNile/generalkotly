@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.1">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; min-height: 15.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="ru"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;General KOTLY — Угадай Время!&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="description" content="General KOTLY from Kotov to the People. Угадай время на генеральских котлах и выиграй $KOTLY!"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link rel="manifest" href="data:application/manifest+json,{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>\"name\": \"General KOTLY\",</p>
+<p class="p1"><span class="Apple-converted-space">    </span>\"short_name\": \"KOTLY\",</p>
+<p class="p1"><span class="Apple-converted-space">    </span>\"start_url\": \".\",</p>
+<p class="p1"><span class="Apple-converted-space">    </span>\"display\": \"standalone\",</p>
+<p class="p1"><span class="Apple-converted-space">    </span>\"background_color\": \"#1a1a2e\",</p>
+<p class="p1"><span class="Apple-converted-space">    </span>\"theme_color\": \"#ff4500\",</p>
+<p class="p1"><span class="Apple-converted-space">    </span>\"icons\": [{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>\"src\": \"https://i.ibb.co/5YkY7Yk/kotly-icon.png\",</p>
+<p class="p1"><span class="Apple-converted-space">      </span>\"sizes\": \"192x192\",</p>
+<p class="p1"><span class="Apple-converted-space">      </span>\"type\": \"image/png\"</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}]</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&amp;family=Rubik:wght@400;700&amp;display=swap');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>* { margin:0; padding:0; box-sizing:border-box; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: linear-gradient(135deg, #1a1a2e, #16213e);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: 'Rubik', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>min-height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>overflow-x: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.container { max-width: 400px; margin: 0 auto; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>h1 {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: 'Orbitron', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 2.2em;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 20px 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #ff4500;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-shadow: 0 0 10px #ff4500;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.slogan {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.9em;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #00ff88;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.watch {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 200px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 200px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 20px auto;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: radial-gradient(circle, #333, #111);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 12px solid #d4af37;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 0 30px rgba(212,175,55,0.6);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.watch::after {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>content: '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>top: 50%; left: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 6px; height: 60px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: translate(-50%, -100%);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform-origin: bottom;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>animation: tick 60s steps(60) infinite;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>@keyframes tick { to { transform: translate(-50%, -100%) rotate(360deg); } }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>input {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 160px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.4em;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 3px solid #d4af37;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #222;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 15px 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>button {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #ff4500;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 14px 30px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.2em;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 50px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 5px 15px rgba(255,69,0,0.4);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: 0.3s;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>button:hover { transform: scale(1.05); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hint { margin: 15px 0; font-size: 1.1em; min-height: 30px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.win { font-size: 1.5em; color: #00ff88; animation: pulse 1s infinite; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.7; } }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.footer {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 40px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.8em;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #aaa;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.footer a { color: #00ff88; text-decoration: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;⏰ GENERAL KOTLY&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="slogan"&gt;from Kotov to the People&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="slogan"&gt;Memecoin from Minsk to the World&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="watch"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p id="status"&gt;Генерал Котов смотрит на котлы...&lt;br&gt;&lt;b&gt;Угадай время!&lt;/b&gt;&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input type="text" id="timeInput" placeholder="14:20" maxlength="5" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button onclick="checkTime()"&gt;ПРОВЕРИТЬ!&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="hint" id="hint"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="result"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="footer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;🚀 &lt;a href="https://t.me/G_KOTLY" target="_blank"&gt;@G_KOTLY&lt;/a&gt; |<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">         </span>&lt;a href="https://tiktok.com/@general.kotly" target="_blank"&gt;TikTok&lt;/a&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;Скрин победы → @G_KOTLY → аирдроп $KOTLY! 🔥&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let secretHour, secretMinute, attempts = 0, maxAttempts = 6;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let gameActive = false;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function startGame() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>secretHour = Math.floor(Math.random() * 24);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>secretMinute = Math.floor(Math.random() * 60);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>attempts = 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gameActive = true;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('status').innerHTML = '🔥 Игра началась! Угадай время на котлах!';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('hint').textContent = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('result').textContent = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('timeInput').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function checkTime() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!gameActive) startGame();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const input = document.getElementById('timeInput').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const hint = document.getElementById('hint');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const result = document.getElementById('result');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!/^\d{2}:\d{2}$/.test(input)) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>hint.textContent = '❌ Формат: ЧЧ:ММ (например, 07:35)';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [h, m] = input.split(':').map(Number);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (h &lt; 0 || h &gt; 23 || m &lt; 0 || m &gt; 59) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>hint.textContent = '⏰ В сутках 24 часа!';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>attempts++;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const diffH = h - secretHour;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const diffM = m - secretMinute;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (h === secretHour &amp;&amp; m === secretMinute) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>result.innerHTML = `&lt;div class="win"&gt;🎉 МЕНА ПААА!&lt;br&gt;Ты угадал: ${input}!&lt;br&gt;+10,000 $KOTLY!&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>hint.textContent = '🚀 От Минска до Луны!';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>gameActive = false;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setTimeout(startGame, 4000);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else if (attempts &gt;= maxAttempts) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>result.innerHTML = `😔 Время вышло!&lt;br&gt;Было: ${String(secretHour).padStart(2,'0')}:${String(secretMinute).padStart(2,'0')}`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>hint.textContent = '🔄 Новая игра через 3...';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>gameActive = false;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setTimeout(startGame, 3000);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let msg = '';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (Math.abs(diffH) &gt; 3 || Math.abs(diffM) &gt; 30) msg = '🥶 Далеко! Котлы бы не выдержали...';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>else if (diffH &gt; 0) msg = '⬇️ Часы спешат!';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>else if (diffH &lt; 0) msg = '⬆️ Часы отстают!';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>else if (diffM &gt; 0) msg = '⏪ Минуты спешат!';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>else if (diffM &lt; 0) msg = '⏩ Минуты отстают!';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>hint.textContent = `${msg} | Попытка ${attempts}/${maxAttempts}`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>window.onload = startGame;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('timeInput').addEventListener('keypress', e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (e.key === 'Enter') checkTime();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
