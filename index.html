@@ -90,8 +90,44 @@
       cursor: pointer;
       box-shadow: 0 5px 15px rgba(255,69,0,0.4);
       transition: 0.3s;
+      margin: 5px;
     }
     button:hover { transform: scale(1.05); }
+    
+    .social-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+      min-width: 140px;
+    }
+    
+    .telegram-btn {
+      background: #0088cc;
+      color: white;
+    }
+    
+    .tiktok-btn {
+      background: #000000;
+      color: white;
+    }
+    
+    .social-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
     .hint { margin: 15px 0; font-size: 1.1em; min-height: 30px; }
     .win { font-size: 1.5em; color: #00ff88; animation: pulse 1s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
@@ -121,10 +157,18 @@
     <div class="hint" id="hint"></div>
     <div id="result"></div>
 
+    <!-- Кнопки социальных сетей -->
+    <div class="social-buttons">
+      <a href="https://t.me/G_KOTLY" target="_blank" class="social-btn telegram-btn">
+        📢 Telegram
+      </a>
+      <a href="https://tiktok.com/@general.kotly" target="_blank" class="social-btn tiktok-btn">
+        🎵 TikTok
+      </a>
+    </div>
+
     <div class="footer">
-      <p>🚀 <a href="https://t.me/G_KOTLY" target="_blank">@G_KOTLY</a> | 
-         <a href="https://tiktok.com/@general.kotly" target="_blank">TikTok</a></p>
-      <p> Скрин победы → @G_KOTLY → аирдроп $KOTLY! 🔥</p>
+      <p>🚀 Скрин победы → @G_KOTLY → аирдроп $KOTLY! 🔥</p>
     </div>
   </div>
 
