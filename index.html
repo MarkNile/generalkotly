@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>GeneralKOTLY — Игра</title>
+  <title>GeneralKOTLY — Угадай время!</title>
+  
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rubik:wght@400;700&display=swap');
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      background: #1a1a1a url('https://i.ibb.co/mS2Mgfn/concrete-texture.jpg') center/cover no-repeat fixed;
       color: #fff;
       font-family: Rubik, sans-serif;
       text-align: center;
       padding: 20px;
       min-height: 100vh;
       overflow-x: hidden;
-      transition: background 0.3s;
     }
-    .container, #menu, #reactionGame { max-width: 400px; margin: 0 auto; }
+
     h1 {
       font-family: 'Orbitron', sans-serif;
       font-size: 2.2em;
@@ -25,6 +26,50 @@
       color: #ff4500;
       text-shadow: 0 0 10px #ff4500;
     }
+
+    .slogan {
+      font-size: 0.9em;
+      color: #00ff88;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .watch {
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+      background: radial-gradient(circle, #333, #111);
+      border: 12px solid #d4af37;
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 0 30px rgba(212,175,55,0.6);
+    }
+
+    .watch::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 6px; height: 60px;
+      background: #fff;
+      transform: translate(-50%, -100%);
+      transform-origin: bottom;
+      animation: tick 60s steps(60) infinite;
+    }
+
+    @keyframes tick { to { transform: translate(-50%, -100%) rotate(360deg); } }
+
+    input {
+      width: 160px;
+      padding: 12px;
+      font-size: 1.4em;
+      text-align: center;
+      border: 3px solid #d4af37;
+      border-radius: 12px;
+      background: #222;
+      color: #fff;
+      margin: 15px 0;
+    }
+
     button {
       background: #ff4500;
       color: white;
@@ -36,137 +81,127 @@
       cursor: pointer;
       box-shadow: 0 5px 15px rgba(255,69,0,0.4);
       transition: 0.3s;
-      margin: 10px;
-      width: 90%;
+      margin: 5px;
     }
+
     button:hover { transform: scale(1.05); }
-    .watch {
-      width: 200px; height: 200px;
-      margin: 20px auto;
-      background: radial-gradient(circle, #333, #111);
-      border: 12px solid #d4af37;
-      border-radius: 50%;
-      position: relative;
-      box-shadow: 0 0 30px rgba(212,175,55,0.6);
-    }
+
     .hint { margin: 15px 0; font-size: 1.1em; min-height: 30px; }
     .win { font-size: 1.5em; color: #00ff88; animation: pulse 1s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;}50%{opacity:0.7;} }
-    #reactionGame { display: none; position: relative; overflow: hidden; }
-    #reactionArea {
-      background: #222;
-      border: 3px solid #ff4500;
-      border-radius: 20px;
-      padding: 40px;
-      margin-top: 30px;
-      font-size: 1.3em;
-      transition: background 0.2s;
-      cursor: pointer;
-      min-height: 150px;
-      position: relative;
-    }
-    #reactionResult { min-height: 40px; }
-    .flash {
-      animation: flash 0.4s ease;
-    }
-    @keyframes flash {
-      0% { background: #ff4500; }
-      50% { background: #fff; }
-      100% { background: #ff4500; }
-    }
-    /* Персонажи */
-    .duel {
+    @keyframes pulse { 0%,100% {opacity:1;} 50% {opacity:0.7;} }
+
+    /* персонажи */
+    .characters {
+      margin-top: 25px;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
+    }
+
+    .characters img {
+      width: 300px;
+      image-rendering: pixelated;
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+
+    .characters.win img {
+      transform: scale(1.1) rotate(-2deg);
+      filter: drop-shadow(0 0 20px #00ff88);
+    }
+
+    .characters.fail img {
+      transform: scale(0.95);
+      filter: grayscale(70%) brightness(0.8);
+    }
+
+    /* соцсети */
+    .social-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 25px 0;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      display: flex;
       align-items: center;
-      margin: 20px 0;
-      height: 120px;
-      position: relative;
+      justify-content: center;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+      min-width: 140px;
     }
-    .char {
-      font-size: 3em;
-      transition: transform 0.2s;
+
+    .telegram-btn {
+      background: #0088cc;
+      color: white;
+      box-shadow: 0 0 10px rgba(0,136,204,0.6);
     }
-    .char-left { transform-origin: left bottom; }
-    .char-right { transform-origin: right bottom; }
-    .shake { animation: shake 0.4s; }
-    @keyframes shake {
-      0%,100%{transform:translate(0);}
-      25%{transform:translate(-5px,2px);}
-      50%{transform:translate(5px,-2px);}
-      75%{transform:translate(-3px,3px);}
+
+    .tiktok-btn {
+      background: #000000;
+      color: white;
+      box-shadow: 0 0 10px rgba(255,255,255,0.2);
     }
-    .slogan {
-      font-size: 1em;
+
+    .social-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #aaa;
+    }
+
+    .footer a {
       color: #00ff88;
-      margin-bottom: 10px;
+      text-decoration: none;
+      font-weight: bold;
     }
+
   </style>
 </head>
 <body>
-  <!-- Главное меню -->
-  <div id="menu">
-    <h1>🪖 GeneralKOTLY</h1>
-    <div class="slogan">Выбери режим:</div>
-    <button onclick="startMode('classic')">🎯 Угадай время</button>
-    <button onclick="startMode('reaction')">⚡ Реакция Генерала и Гопника</button>
-  </div>
+  <div class="container">
+    <h1>⏰ GeneralKOTLY</h1>
+    <div class="slogan">General KOTLY from Kotov to the People</div>
+    <div class="slogan">Memecoin from Minsk to the World</div>
 
-  <!-- Классическая игра -->
-  <div class="container" style="display:none;">
-    <h1>🎯 Угадай время</h1>
     <div class="watch"></div>
+
     <p id="status">Генерал Котов смотрит на котлы...<br><b>Угадай время!</b></p>
-    <input type="text" id="timeInput" placeholder="14:20" maxlength="5" />
-    <br><button onclick="checkTime()">ПРОВЕРИТЬ!</button>
+
+    <input type="text" id="timeInput" placeholder="14:20 или 14.20" maxlength="5" />
+    <br>
+    <button onclick="checkTime()">ПРОВЕРИТЬ!</button>
+
     <div class="hint" id="hint"></div>
     <div id="result"></div>
-    <button onclick="backToMenu()">⬅️ В меню</button>
-  </div>
 
-  <!-- Режим реакции -->
-  <div id="reactionGame">
-    <h1>⚡ Реакция Генерала и Гопника</h1>
-    <p id="reactionStatus">Жди сигнала от Генерала...</p>
-
-    <div class="duel">
-      <div id="general" class="char char-left">🪖</div>
-      <div id="gopnik" class="char char-right">🧢</div>
+    <!-- Персонажи -->
+    <div class="characters">
+      <img src="kotly-heroes.png" alt="Генерал и Гопник">
     </div>
 
-    <div id="reactionArea" onclick="reactionClick()">
-      🪖 Генерал с Гопником переглядываются...
+    <!-- Соцсети -->
+    <div class="social-buttons">
+      <a href="https://t.me/G_KOTLY" target="_blank" class="social-btn telegram-btn">📢 Telegram</a>
+      <a href="https://tiktok.com/@general.kotly" target="_blank" class="social-btn tiktok-btn">🎵 TikTok</a>
     </div>
-    <div id="reactionResult" class="hint"></div>
-    <button onclick="backToMenu()">⬅️ В меню</button>
+
+    <div class="footer">
+      🚀 Скинь скрин победы в <a href="https://t.me/G_KOTLY" target="_blank">Telegram</a> и получи <b>1 000 $KOTLY!</b> 🔥
+    </div>
   </div>
 
   <script>
     let secretHour, secretMinute, attempts = 0, maxAttempts = 6;
     let gameActive = false;
-    let mode = 'classic';
 
-    // === Меню ===
-    function startMode(selectedMode) {
-      mode = selectedMode;
-      document.getElementById('menu').style.display = 'none';
-      if (mode === 'classic') {
-        document.querySelector('.container').style.display = 'block';
-        startGame();
-      } else if (mode === 'reaction') {
-        document.getElementById('reactionGame').style.display = 'block';
-        startReactionGame();
-      }
-    }
-
-    function backToMenu() {
-      document.querySelector('.container').style.display = 'none';
-      document.getElementById('reactionGame').style.display = 'none';
-      document.getElementById('menu').style.display = 'block';
-      document.body.style.background = "linear-gradient(135deg, #1a1a2e, #16213e)";
-    }
-
-    // === Классическая ===
     function startGame() {
       secretHour = Math.floor(Math.random() * 24);
       secretMinute = Math.floor(Math.random() * 60);
@@ -180,16 +215,17 @@
 
     function checkTime() {
       if (!gameActive) startGame();
-      const input = document.getElementById('timeInput').value.trim();
+      const input = document.getElementById('timeInput').value.trim().replace('.', ':');
       const hint = document.getElementById('hint');
       const result = document.getElementById('result');
+      const characters = document.querySelector('.characters');
 
-      if (!/^\d{2}[:.]\d{2}$/.test(input)) {
+      if (!/^\d{2}:\d{2}$/.test(input)) {
         hint.textContent = "❌ Формат: ЧЧ:ММ или ЧЧ.ММ (например, 07:35)";
         return;
       }
 
-      const [h, m] = input.split(/[:.]/).map(Number);
+      const [h, m] = input.split(':').map(Number);
       if (h < 0 || h > 23 || m < 0 || m > 59) {
         hint.textContent = "⏰ В сутках 24 часа!";
         return;
@@ -203,81 +239,31 @@
         result.innerHTML = `<div class="win">🎉 МЕНА ПААА!<br>Ты угадал: ${input}!<br>+1 000 $KOTLY!</div>`;
         hint.textContent = '🚀 От Минска до Луны!';
         gameActive = false;
+        characters.classList.add('win');
+        setTimeout(() => characters.classList.remove('win'), 2500);
         setTimeout(startGame, 4000);
       } else if (attempts >= maxAttempts) {
         result.innerHTML = `😔 Время вышло!<br> Было: ${String(secretHour).padStart(2,'0')}:${String(secretMinute).padStart(2,'0')}`;
         hint.textContent = "🔄 Новая игра через 3...";
         gameActive = false;
+        characters.classList.add('fail');
+        setTimeout(() => characters.classList.remove('fail'), 2000);
         setTimeout(startGame, 3000);
       } else {
         let msg = '';
         if (Math.abs(diffH) > 3 || Math.abs(diffM) > 30) msg = '🥶 Далеко! Котлы бы не выдержали...';
         else if (diffH > 0) msg = '⬇️ Часы спешат!';
         else if (diffH < 0) msg = '⬆️ Часы отстают!';
-        else if (diffM > 0) msg = '⏪ Минуты летят!';
+        else if (diffM > 0) msg = '⏪ Минуты спешат!';
         else if (diffM < 0) msg = '⏩ Минуты отстают!';
         hint.textContent = `${msg} | Попытка ${attempts}/${maxAttempts}`;
       }
     }
 
+    window.onload = startGame;
     document.getElementById('timeInput').addEventListener('keypress', e => {
       if (e.key === 'Enter') checkTime();
     });
-
-    // === Реакция Генерала ===
-    let waiting = false;
-    let startTime;
-    let timeoutID;
-
-    function startReactionGame() {
-      const status = document.getElementById('reactionStatus');
-      const area = document.getElementById('reactionArea');
-      const result = document.getElementById('reactionResult');
-      const general = document.getElementById('general');
-      const gopnik = document.getElementById('gopnik');
-
-      status.textContent = "Генерал: 'Не дергайся пока котлы не закипят!'";
-      area.textContent = "ЖДИ...";
-      area.style.background = "#222";
-      result.textContent = "";
-      general.classList.remove("shake");
-      gopnik.classList.remove("shake");
-      waiting = true;
-      document.body.style.background = "linear-gradient(135deg, #1a1a2e, #16213e)";
-
-      const delay = 2000 + Math.random() * 3000;
-      timeoutID = setTimeout(() => {
-        waiting = false;
-        startTime = Date.now();
-        area.textContent = "🔥 КОТЛЫ ЗАКИПЕЛИ! ЖМИ!";
-        area.style.background = "#ff4500";
-        document.body.classList.add("flash");
-        setTimeout(()=>document.body.classList.remove("flash"),400);
-      }, delay);
-    }
-
-    function reactionClick() {
-      const result = document.getElementById('reactionResult');
-      const area = document.getElementById('reactionArea');
-      const general = document.getElementById('general');
-      const gopnik = document.getElementById('gopnik');
-
-      if (waiting) {
-        clearTimeout(timeoutID);
-        result.textContent = "😹 Рано, салага! Гопник ржёт!";
-        area.style.background = "#555";
-        gopnik.classList.add("shake");
-        waiting = false;
-        setTimeout(startReactionGame, 2000);
-      } else if (startTime) {
-        const reaction = Date.now() - startTime;
-        result.innerHTML = `⚡ Реакция: <b>${reaction} мс</b>`;
-        area.style.background = "#00ff88";
-        general.classList.add("shake");
-        startTime = null;
-        setTimeout(startReactionGame, 3000);
-      }
-    }
   </script>
 </body>
 </html>
