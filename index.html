@@ -1,269 +1,374 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>GeneralKOTLY — Угадай время!</title>
-  
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rubik:wght@400;700&display=swap');
-    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
-      background: #1a1a1a url('https://raw.githubusercontent.com/MarkNile/generalkotly/refs/heads/main/generalkotlybackground.png') center/cover no-repeat fixed;
-      color: #fff;
-      font-family: Rubik, sans-serif;
-      text-align: center;
-      padding: 20px;
-      min-height: 100vh;
-      overflow-x: hidden;
+    :root{
+      --accent:#ff4500;
+      --gold:#d4af37;
+      --green:#00ff88;
+      --tg:#0088cc;
+      --tt:#000;
+      --crt-width:90vmin;
+      --crt-aspect:4/3;
     }
 
-    h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.2em;
-      margin: 20px 0;
-      color: #ff4500;
-      text-shadow: 0 0 10px #ff4500;
+    /* базовая страница с твоим фоном */
+    html,body{height:100%}
+    body{
+      margin:0;
+      min-height:100%;
+      font-family:Rubik, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: #000 url('generalkotlybackground.png') center/cover no-repeat fixed;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
     }
 
-    .slogan {
-      font-size: 0.9em;
-      color: #00ff88;
-      margin-bottom: 20px;
-      font-weight: bold;
+    /* CRT корпус (рамка телевизора) */
+    .crt {
+      width:var(--crt-width);
+      aspect-ratio: var(--crt-aspect);
+      border-radius:14px;
+      background:#0b0b0b;
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.7),
+        inset 0 0 120px rgba(0,0,0,0.6);
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:12px solid #111;
+      transform:scale(1);
     }
 
+    /* экран внутри (выпуклость и заливка) */
+    .screen {
+      position:absolute;
+      inset:6%;
+      border-radius:10px;
+      overflow:hidden;
+      background:linear-gradient(#031118,#08151a 40%, #021018 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      /* немного перспективы чтобы был эффект стекла */
+      transform: perspective(900px) rotateX(1deg) rotateY(-1deg);
+      z-index:2;
+      filter:contrast(1.1) brightness(1.05);
+    }
+
+    /* сканлайн + шум (поверх экрана) */
+    .screen::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.02) 0px,
+          rgba(255,255,255,0.01) 1px,
+          rgba(0,0,0,0.02) 2px
+        );
+      mix-blend-mode:overlay;
+      z-index:8;
+      opacity:0.9;
+    }
+    .screen::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256"><filter id="g"><feTurbulence baseFrequency="0.9" stitchTiles="stitch" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(%23g)" opacity="0.06"/></svg>');
+      mix-blend-mode:overlay;
+      z-index:9;
+      opacity:0.9;
+      transform:scale(1.6);
+      image-rendering:optimizeQuality;
+    }
+
+    /* легкая виньетка (края темнее) */
+    .vignette {
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:12;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.85) 100%);
+    }
+
+    /* контент внутри — сюда кладём UI */
+    .content {
+      width:86%;
+      height:86%;
+      z-index:5;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      padding:18px 22px;
+      box-sizing:border-box;
+      transform: translateZ(0);
+    }
+
+    h1{
+      margin:6px 0 8px 0;
+      font-family:Orbitron, monospace;
+      color:var(--accent);
+      text-shadow:0 0 8px rgba(255,69,0,0.7);
+      font-size:clamp(18px,3.2vw,34px);
+      letter-spacing:1px;
+    }
+    .slogan{ color:var(--green); font-size:12px; margin-bottom:6px; font-weight:700; text-transform:none; }
+    .slogan.small{ font-size:11px; color:#9fffb7; margin-bottom:14px; opacity:0.95; }
+
+    /* часы/игровая зона */
     .watch {
-      width: 200px;
-      height: 200px;
-      margin: 20px auto;
-      background: radial-gradient(circle, #333, #111);
-      border: 12px solid #d4af37;
-      border-radius: 50%;
-      position: relative;
-      box-shadow: 0 0 30px rgba(212,175,55,0.6);
+      width:140px;
+      height:140px;
+      border-radius:50%;
+      background:radial-gradient(circle at 35% 20%, #2b2b2b, #111);
+      border:9px solid var(--gold);
+      box-shadow:0 0 30px rgba(212,175,55,0.45);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:6px 0 12px 0;
+    }
+    .watch .dial{
+      width:72%;
+      height:72%;
+      border-radius:50%;
+      background:linear-gradient(#222,#000 60%);
+      display:block;
     }
 
-    .watch::after {
-      content: '';
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 6px; height: 60px;
-      background: #fff;
-      transform: translate(-50%, -100%);
-      transform-origin: bottom;
-      animation: tick 60s steps(60) infinite;
+    p#status { font-size:13px; margin:6px 0 8px 0; color:#dfeee2; text-shadow:0 1px 0 rgba(0,0,0,0.6); }
+
+    .controls { margin-top:8px; display:flex; flex-direction:column; align-items:center; gap:8px; width:100%; }
+
+    input#timeInput{
+      width:150px;
+      padding:10px;
+      font-size:16px;
+      text-align:center;
+      border-radius:10px;
+      border:3px solid var(--gold);
+      background:#111;
+      color:#fff;
+      outline:none;
     }
 
-    @keyframes tick { to { transform: translate(-50%, -100%) rotate(360deg); } }
-
-    input {
-      width: 160px;
-      padding: 12px;
-      font-size: 1.4em;
-      text-align: center;
-      border: 3px solid #d4af37;
-      border-radius: 12px;
-      background: #222;
-      color: #fff;
-      margin: 15px 0;
+    button.primary{
+      background:var(--accent);
+      color:#fff;
+      padding:10px 26px;
+      border-radius:28px;
+      font-weight:700;
+      text-transform:uppercase;
+      border:none;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(255,69,0,0.28);
+      transition: transform .12s ease;
     }
+    button.primary:active{ transform:translateY(2px) }
 
-    button {
-      background: #ff4500;
-      color: white;
-      border: none;
-      padding: 14px 30px;
-      font-size: 1.2em;
-      font-weight: bold;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(255,69,0,0.4);
-      transition: 0.3s;
-      margin: 5px;
-    }
+    .hint { margin-top:8px; font-size:13px; min-height:24px; color:#e0f7df; }
 
-    button:hover { transform: scale(1.05); }
-
-    .hint { margin: 15px 0; font-size: 1.1em; min-height: 30px; }
-    .win { font-size: 1.5em; color: #00ff88; animation: pulse 1s infinite; }
-    @keyframes pulse { 0%,100% {opacity:1;} 50% {opacity:0.7;} }
+    .result{ margin-top:6px; min-height:40px; font-weight:700; }
 
     /* персонажи */
-    .characters {
-      margin-top: 25px;
-      display: flex;
-      justify-content: center;
+    .characters { margin-top:10px; display:flex; justify-content:center; width:100%; }
+    .characters img{ width:270px; image-rendering:pixelated; transition:transform .35s ease, filter .35s ease; }
+
+    .characters.win img{ transform:scale(1.08) rotate(-2deg); filter:drop-shadow(0 0 22px var(--green)); }
+    .characters.fail img{ transform:scale(.97) translateY(4px); filter:grayscale(.7) brightness(.75); }
+
+    /* соц-кнопки и подпись (внизу) */
+    .bottom {
+      margin-top:auto;
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      padding-bottom:6px;
     }
 
-    .characters img {
-      width: 300px;
-      image-rendering: pixelated;
-      transition: transform 0.4s ease, filter 0.4s ease;
+    .social-buttons{ display:flex; gap:12px; align-items:center; justify-content:center; }
+
+    .social-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 18px;
+      border-radius:999px;
+      color:#fff;
+      text-decoration:none;
+      font-weight:700;
+      box-shadow:0 6px 16px rgba(0,0,0,0.45);
+      transition:transform .12s;
+    }
+    .social-btn:hover{ transform:translateY(-3px) }
+
+    .telegram-btn{ background:var(--tg) }
+    .tiktok-btn{ background:var(--tt) }
+
+    .footer{ color:#c9d2c9; font-size:13px; opacity:0.95; }
+
+    /* небольшой отклик при победе/поражении для всего CRT */
+    .crt.win{ animation: crt-win .32s linear 0s 2; }
+    @keyframes crt-win{
+      0%{ filter:brightness(1) drop-shadow(0 0 0 rgba(0,0,0,0)) }
+      50%{ filter:brightness(1.6) }
+      100%{ filter:brightness(1) }
     }
 
-    .characters.win img {
-      transform: scale(1.1) rotate(-2deg);
-      filter: drop-shadow(0 0 20px #00ff88);
+    /* адаптив */
+    @media (max-width:720px){
+      :root{ --crt-width:96vw }
+      .characters img{ width:200px }
+      .watch{ width:120px; height:120px }
     }
-
-    .characters.fail img {
-      transform: scale(0.95);
-      filter: grayscale(70%) brightness(0.8);
-    }
-
-    /* соцсети */
-    .social-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin: 25px 0;
-      flex-wrap: wrap;
-    }
-
-    .social-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 20px;
-      border-radius: 50px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: 0.3s;
-      min-width: 140px;
-    }
-
-    .telegram-btn {
-      background: #0088cc;
-      color: white;
-      box-shadow: 0 0 10px rgba(0,136,204,0.6);
-    }
-
-    .tiktok-btn {
-      background: #000000;
-      color: white;
-      box-shadow: 0 0 10px rgba(255,255,255,0.2);
-    }
-
-    .social-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(255,255,255,0.3);
-    }
-
-    .footer {
-      margin-top: 40px;
-      font-size: 0.9em;
-      color: #aaa;
-    }
-
-    .footer a {
-      color: #00ff88;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>⏰ GeneralKOTLY</h1>
-    <div class="slogan">General KOTLY from Kotov to the People</div>
-    <div class="slogan">Memecoin from Minsk to the World</div>
+  <div class="crt" id="crtRoot">
+    <div class="screen">
+      <div class="vignette"></div>
 
-    <div class="watch"></div>
+      <div class="content" role="main" aria-live="polite">
+        <h1>⏰ GeneralKOTLY</h1>
+        <div class="slogan">General KOTLY from Kotov to the People</div>
+        <div class="slogan small">Memecoin from Minsk to the World</div>
 
-    <p id="status">Генерал Котов смотрит на котлы...<br><b>Угадай время!</b></p>
+        <div class="watch" aria-hidden="true">
+          <span class="dial"></span>
+        </div>
 
-    <input type="text" id="timeInput" placeholder="14:20 или 14.20" maxlength="5" />
-    <br>
-    <button onclick="checkTime()">ПРОВЕРИТЬ!</button>
+        <p id="status">Генерал Котов смотрит на котлы...<br><b>Угадай время!</b></p>
 
-    <div class="hint" id="hint"></div>
-    <div id="result"></div>
+        <div class="controls">
+          <input id="timeInput" placeholder="14:20" maxlength="5" inputmode="numeric" aria-label="Время (формат ЧЧ:ММ)" />
+          <button class="primary" id="checkBtn">ПРОВЕРИТЬ!</button>
+          <div class="hint" id="hint"></div>
+          <div class="result" id="result"></div>
+        </div>
 
-    <!-- Персонажи -->
-    <div class="characters">
-      <img src="kotly-heroes.png" alt="Генерал и Гопник">
-    </div>
+        <div class="characters" aria-hidden="true">
+          <img id="heroes" src="kotly-heroes.png" alt="пиксель-арт: Гопник и Генерал">
+        </div>
 
-    <!-- Соцсети -->
-    <div class="social-buttons">
-      <a href="https://t.me/G_KOTLY" target="_blank" class="social-btn telegram-btn">📢 Telegram</a>
-      <a href="https://tiktok.com/@general.kotly" target="_blank" class="social-btn tiktok-btn">🎵 TikTok</a>
-    </div>
+        <div class="bottom">
+          <div class="social-buttons">
+            <a class="social-btn telegram-btn" href="https://t.me/G_KOTLY" target="_blank" rel="noopener noreferrer">📢 Telegram</a>
+            <a class="social-btn tiktok-btn" href="https://tiktok.com/@general.kotly" target="_blank" rel="noopener noreferrer">🎵 TikTok</a>
+          </div>
 
-    <div class="footer">
-      🚀 Скинь скрин победы в <a href="https://t.me/G_KOTLY" target="_blank">Telegram</a> и получи <b>1 000 $KOTLY!</b> 🔥
-    </div>
-  </div>
+          <div class="footer">
+            🚀 Скинь скрин победы в <a href="https://t.me/G_KOTLY" target="_blank" rel="noopener noreferrer">Telegram</a> и получи <b>1 000 $KOTLY!</b>
+          </div>
+        </div>
+      </div> <!-- content -->
+    </div> <!-- screen -->
+  </div> <!-- crt -->
 
   <script>
-    let secretHour, secretMinute, attempts = 0, maxAttempts = 6;
-    let gameActive = false;
-
-    function startGame() {
-      secretHour = Math.floor(Math.random() * 24);
-      secretMinute = Math.floor(Math.random() * 60);
-      attempts = 0;
-      gameActive = true;
-      document.getElementById('status').innerHTML = '🔥 Игра началась! Угадай время на котлах!';
-      document.getElementById('hint').textContent = '';
-      document.getElementById('result').textContent = '';
-      document.getElementById('timeInput').value = '';
-    }
-
-    function checkTime() {
-      if (!gameActive) startGame();
-      const input = document.getElementById('timeInput').value.trim().replace('.', ':');
+    // ====== Game logic (поддерживает : и .) ======
+    (function(){
+      const timeInput = document.getElementById('timeInput');
+      const checkBtn = document.getElementById('checkBtn');
       const hint = document.getElementById('hint');
       const result = document.getElementById('result');
       const characters = document.querySelector('.characters');
+      const crt = document.getElementById('crtRoot');
 
-      if (!/^\d{2}:\d{2}$/.test(input)) {
-        hint.textContent = "❌ Формат: ЧЧ:ММ или ЧЧ.ММ (например, 07:35)";
-        return;
+      let secretHour, secretMinute, attempts = 0, maxAttempts = 6, gameActive = false;
+
+      function startGame(){
+        secretHour = Math.floor(Math.random()*24);
+        secretMinute = Math.floor(Math.random()*60);
+        attempts = 0;
+        gameActive = true;
+        hint.textContent = '';
+        result.textContent = '';
+        timeInput.value = '';
+        document.getElementById('status').innerHTML = '🔥 Игра началась! Угадай время на котлах!';
       }
 
-      const [h, m] = input.split(':').map(Number);
-      if (h < 0 || h > 23 || m < 0 || m > 59) {
-        hint.textContent = "⏰ В сутках 24 часа!";
-        return;
-      }
-
-      attempts++;
-      const diffH = h - secretHour;
-      const diffM = m - secretMinute;
-
-      if (h === secretHour && m === secretMinute) {
-        result.innerHTML = `<div class="win">🎉 МЕНА ПААА!<br>Ты угадал: ${input}!<br>+1 000 $KOTLY!</div>`;
+      function showWin(input){
+        result.innerHTML = `<span style="color:var(--green)">🎉 МЕНА ПААА!<br>Ты угадал: ${input}!<br>+1 000 $KOTLY!</span>`;
         hint.textContent = '🚀 От Минска до Луны!';
         gameActive = false;
         characters.classList.add('win');
-        setTimeout(() => characters.classList.remove('win'), 2500);
-        setTimeout(startGame, 4000);
-      } else if (attempts >= maxAttempts) {
+        crt.classList.add('win');
+        setTimeout(()=>{ characters.classList.remove('win'); crt.classList.remove('win'); }, 2200);
+        setTimeout(startGame, 3800);
+      }
+
+      function showFail(){
         result.innerHTML = `😔 Время вышло!<br> Было: ${String(secretHour).padStart(2,'0')}:${String(secretMinute).padStart(2,'0')}`;
         hint.textContent = "🔄 Новая игра через 3...";
         gameActive = false;
         characters.classList.add('fail');
-        setTimeout(() => characters.classList.remove('fail'), 2000);
+        setTimeout(()=>{ characters.classList.remove('fail') }, 1800);
         setTimeout(startGame, 3000);
-      } else {
+      }
+
+      function checkTime(){
+        if(!gameActive) startGame();
+        let input = timeInput.value.trim();
+        // поддерживаем . или :
+        input = input.replace(',', ':').replace('.', ':');
+        if(!/^\d{2}:\d{2}$/.test(input)){
+          hint.textContent = "❌ Формат: ЧЧ:ММ (например, 07:35)";
+          return;
+        }
+        const [h,m] = input.split(':').map(Number);
+        if(h<0 || h>23 || m<0 || m>59){
+          hint.textContent = "⏰ В сутках 24 часа!";
+          return;
+        }
+
+        attempts++;
+        const diffH = h - secretHour;
+        const diffM = m - secretMinute;
+
+        if(h === secretHour && m === secretMinute){
+          showWin(input);
+          return;
+        }
+
+        if(attempts >= maxAttempts){
+          showFail();
+          return;
+        }
+
+        // подсказки
         let msg = '';
-        if (Math.abs(diffH) > 3 || Math.abs(diffM) > 30) msg = '🥶 Далеко! Котлы бы не выдержали...';
-        else if (diffH > 0) msg = '⬇️ Часы спешат!';
-        else if (diffH < 0) msg = '⬆️ Часы отстают!';
-        else if (diffM > 0) msg = '⏪ Минуты спешат!';
-        else if (diffM < 0) msg = '⏩ Минуты отстают!';
+        if(Math.abs(diffH) > 3 || Math.abs(diffM) > 30) msg = '🥶 Далеко! Котлы бы не выдержали...';
+        else if(diffH > 0) msg = '⬇️ Часы спешат!';
+        else if(diffH < 0) msg = '⬆️ Часы отстают!';
+        else if(diffM > 0) msg = '⏪ Минуты спешат!';
+        else if(diffM < 0) msg = '⏩ Минуты отстают!';
         hint.textContent = `${msg} | Попытка ${attempts}/${maxAttempts}`;
       }
-    }
 
-    window.onload = startGame;
-    document.getElementById('timeInput').addEventListener('keypress', e => {
-      if (e.key === 'Enter') checkTime();
-    });
+      checkBtn.addEventListener('click', checkTime);
+      timeInput.addEventListener('keypress', e => {
+        if(e.key === 'Enter') checkTime();
+      });
+
+      // старт при загрузке
+      window.addEventListener('load', startGame);
+    })();
   </script>
 </body>
 </html>
