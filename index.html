@@ -17,6 +17,7 @@
       height: 100vh;
       color: #fff;
       text-shadow: 0 0 3px #000;
+      overflow: hidden;
     }
 
     .screen {
@@ -105,6 +106,11 @@
       text-align: center;
       color: #ffd700;
     }
+
+    a {
+      color: #00afff;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
@@ -119,12 +125,12 @@
   </div>
 
   <div class="reward">
-    💰 Скинь скрин победы в <a href="https://t.me/G_KOTLY" style="color:#00afff;">Telegram</a> — получи 1000 $KOTLY!
+    💰 Скинь скрин победы в <a href="https://t.me/G_KOTLY" target="_blank">Telegram</a> — получи 1000 $KOTLY!
   </div>
 
   <div class="socials">
-    <a href="https://t.me/G_KOTLY" class="telegram">✈️</a>
-    <a href="https://tiktok.com/@general.kotly" class="tiktok">🎵</a>
+    <a href="https://t.me/G_KOTLY" target="_blank" class="telegram">✈️</a>
+    <a href="https://tiktok.com/@general.kotly" target="_blank" class="tiktok">🎵</a>
   </div>
 
   <script>
@@ -133,8 +139,7 @@
     const result = document.getElementById('result');
     const muteBtn = document.getElementById('muteBtn');
 
-    let muted = false;
-
+    // === ИНИЦИАЛИЗАЦИЯ ЗВУКОВ ===
     const sounds = {
       click: new Audio('sounds/click.mp3'),
       win: new Audio('sounds/win.mp3'),
@@ -142,15 +147,28 @@
       static: new Audio('sounds/static.mp3')
     };
 
-    const toggleMute = () => {
-      muted = !muted;
+    // === ПЕРЕМЕННЫЕ ===
+    let attempts = 6;
+    let muted = localStorage.getItem('muted') === 'true';
+
+    // === ПРИМЕНЕНИЕ СОСТОЯНИЯ ЗВУКА ===
+    function applyMuteState() {
       for (let s in sounds) {
         sounds[s].muted = muted;
       }
       muteBtn.textContent = muted ? '🔇' : '🔊';
-    };
-    muteBtn.addEventListener('click', toggleMute);
+      localStorage.setItem('muted', muted);
+    }
 
+    applyMuteState();
+
+    // === ПЕРЕКЛЮЧАТЕЛЬ ЗВУКА ===
+    muteBtn.addEventListener('click', () => {
+      muted = !muted;
+      applyMuteState();
+    });
+
+    // === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
     const getCurrentTime = () => {
       const now = new Date();
       let h = now.getHours().toString().padStart(2, '0');
@@ -160,8 +178,7 @@
 
     const cleanFormat = str => str.replace('.', ':').trim();
 
-    let attempts = 6;
-
+    // === ИГРОВАЯ ЛОГИКА ===
     guessBtn.addEventListener('click', () => {
       if (!muted) sounds.click.play();
 
